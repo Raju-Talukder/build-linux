@@ -1,0 +1,44 @@
+---
+# tasks file for update
+
+- name: Update package lists
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Upgrade all packages
+  become: yes
+  ansible.builtin.apt:
+    upgrade: yes
+    autoremove: yes
+    autoclean: yes
+
+- name: Perform full-upgrade
+  become: yes
+  ansible.builtin.apt:
+    upgrade: full
+    autoremove: yes
+    autoclean: yes
+
+- name: Perform dist-upgrade
+  become: yes
+  ansible.builtin.apt:
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
+
+- name: Ensure the system is up to date
+  become: yes
+  ansible.builtin.apt:
+    upgrade: safe
+
+- name: Update the Linux kernel
+  become: yes
+  ansible.builtin.apt:
+    name: linux-image-generic
+    state: latest
+
+- name: Update searchsploit database
+  command: searchsploit -u
+  register: result
+  failed_when: result.rc != 0 and result.rc != 6

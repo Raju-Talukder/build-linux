@@ -1,0 +1,18 @@
+##wfuzz html_escape
+wfuzz -c -z file,/usr/share/wordlists/Fuzzing/yeah.txt --hc 404 "$URL"
+##Test for Paramter Existence!
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt --hc 404 "$URL"
+##AUTHENTICATED FUZZING DIRECTORIES:
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt --hc 404 -d "PARAM-value" "$URL"
+##AUTHENTICATED FILE FUZZING:
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt-hc 404 -d "PARAM-value" "$URL"
+##FUZZ Directories:
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt-hc 404 "$URL"
+##FUZZ FILES:
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-large-files.txt --hc 404 "$URL"
+##LARGE WORDS:
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 "$URL"
+##USERS:
+wfuzz -c -z file,/usr/share/seclists/Usernames/top-usernames-shortlist.txt --hc 404,403 "$URL"
+## Some LFI fuzzing:
+wfuzz -c -z file,/usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt --hc 404 "$URL"

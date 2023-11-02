@@ -1,0 +1,43 @@
+---
+#tasks file for general_config
+
+- name: Get current username
+  become: no
+  command: whoami
+  register: current_user
+
+- name: Backup & Configure Bashrc File
+  become: no
+  command: mv /home/{{ current_user.stdout }}/.zshrc /home/{{ current_user.stdout }}/.zshrc.bak
+  command: cp "{{ role_path }}/files/zshrc" /home/{{ current_user.stdout }}/.zshrc
+
+- name: Backup & Configure Terminator Default config File
+  become: no
+  command: mv "/home/{{ current_user.stdout }}/.config/terminator/config" "/home/{{ current_user.stdout }}/.config/terminator/config.bak"
+  command: cp "{{ role_path }}/files/terminatorconf" "/home/{{ current_user.stdout }}/.config/terminator/config"
+
+- name: Copy files to .commands
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/.commands"
+    dest: /opt/
+    remote_src: yes
+    backup: yes
+
+- name: Set permissions for .copytest directory
+  become: yes
+  file:
+    path: /opt/.commands
+    state: directory
+    mode: "0755"
+
+- name: Check if rockyou.txt file exists
+  ansible.builtin.stat:
+    path: /usr/share/wordlists/rockyou.txt
+  register: rockyou_file
+
+- name: Unzip rockyou.txt.gz
+  become: yes
+  ansible.builtin.command: gunzip -k /usr/share/wordlists/rockyou.txt.gz
+  when: not rockyou_file.stat.exists
+

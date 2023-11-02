@@ -1,0 +1,10 @@
+- name: Execute Roles on localhost
+  hosts: localhost
+  become: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  roles:
+    - update
+    - general_config
+    - tools

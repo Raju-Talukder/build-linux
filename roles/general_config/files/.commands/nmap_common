@@ -1,0 +1,6 @@
+nmap -sn $IP/24
+nmap -p- --min-rate=10000 $IP
+nmap -p- -sC -sV -oN nmap/initial $IP 
+
+#Nmap HTTP-methods
+nmap -p80,443 --script-http-methods  --script-args 'http-methods.url-path="/directory/goes/here' 
