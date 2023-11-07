@@ -45,4 +45,5 @@
     - gh
     - rsh-client
     - flameshot
-    - xsel
+    - xclip
+    - knock
