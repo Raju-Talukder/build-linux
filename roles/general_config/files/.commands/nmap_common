@@ -4,3 +4,6 @@ nmap -p- -sC -sV -oN nmap/initial $IP
 
 #Nmap HTTP-methods
 nmap -p80,443 --script-http-methods  --script-args 'http-methods.url-path="/directory/goes/here' 
+
+#Regular port scan 
+ports=$(nmap -p- --min-rate=1000 -T4 $IP | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//) ; nmap -p$ports -sC -sV -oN nmap_service_scan $IP
