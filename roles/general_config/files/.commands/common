@@ -20,3 +20,5 @@ tcpdump -i ethe -c5 icmp
 
 #Check Network
 netdiscover / 0.0.0.0/24
+
+wpscan --enumerate ap --plugins-detection aggressive --plugins-version-detection aggressive --url '$URL'
