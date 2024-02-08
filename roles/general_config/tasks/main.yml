@@ -13,8 +13,8 @@
 
 - name: Backup & Configure Bashrc File of Root user
   become: yes
-  command: mv /home/root/.zshrc /home/root/.zshrc.bak
-  command: cp "{{ role_path }}/files/zshrc" /home/root/.zshrc
+  command: mv /root/.zshrc /root/.zshrc.bak
+  command: cp "{{ role_path }}/files/zshrc" /root/.zshrc
 
 - name: Configure Tmux config File
   become: no
@@ -22,7 +22,7 @@
 
 - name: Configure Tmux config File for Root user
   become: yes
-  command: cp "{{ role_path }}/files/tmux.conf" "/home/root/.tmux.conf"
+  command: cp "{{ role_path }}/files/tmux.conf" "/root/.tmux.conf"
 
 - name: Copy files to .commands
   become: yes
