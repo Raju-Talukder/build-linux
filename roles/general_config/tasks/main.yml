@@ -11,10 +11,18 @@
   command: mv /home/{{ current_user.stdout }}/.zshrc /home/{{ current_user.stdout }}/.zshrc.bak
   command: cp "{{ role_path }}/files/zshrc" /home/{{ current_user.stdout }}/.zshrc
 
-- name: Backup & Configure Terminator Default config File
+- name: Backup & Configure Bashrc File of Root user
+  become: yes
+  command: mv /home/root/.zshrc /home/root/.zshrc.bak
+  command: cp "{{ role_path }}/files/zshrc" /home/root/.zshrc
+
+- name: Configure Tmux config File
   become: no
-  command: mv "/home/{{ current_user.stdout }}/.config/terminator/config" "/home/{{ current_user.stdout }}/.config/terminator/config.bak"
-  command: cp "{{ role_path }}/files/terminatorconf" "/home/{{ current_user.stdout }}/.config/terminator/config"
+  command: cp "{{ role_path }}/files/tmux.conf" "/home/{{ current_user.stdout }}/.tmux.conf"
+
+- name: Configure Tmux config File for Root user
+  become: yes
+  command: cp "{{ role_path }}/files/tmux.conf" "/home/root/.tmux.conf"
 
 - name: Copy files to .commands
   become: yes
@@ -24,7 +32,7 @@
     remote_src: yes
     backup: yes
 
-- name: Set permissions for .copytest directory
+- name: Set permissions for .commands directory
   become: yes
   file:
     path: /opt/.commands

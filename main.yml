@@ -6,5 +6,5 @@
 
   roles:
     - update
-    - general_config
     - tools
+    - general_config
