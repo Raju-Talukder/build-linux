@@ -11,16 +11,16 @@ N.B: it will ask for the super user (root) password.
 
 ## It will install this tools 
 ```
-    - sublime-text
-    - gobuster
-    - seclists
-    - ltrace
-    - html2text
-    - jq
-    - gh
-    - rsh-client
-    - flameshot
-    - xclip
+- sublime-text
+- gobuster
+- seclists
+- ltrace
+- html2text
+- jq
+- gh
+- rsh-client
+- flameshot
+- xclip
 ```
 ## Others 
 ```
