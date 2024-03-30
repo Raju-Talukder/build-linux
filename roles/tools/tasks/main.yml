@@ -42,6 +42,5 @@
     - html2text
     - jq
     - gh
-    - rsh-client
     - flameshot
     - xclip
