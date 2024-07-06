@@ -1,0 +1,26 @@
+# Downloading tools from github
+
+- name: Fetch the latest release data from GitHub
+  uri:
+    url: https://api.github.com/repos/ropnop/kerbrute/releases/latest
+    return_content: yes
+    headers:
+      Accept: application/vnd.github.v3+json
+  register: release_data
+
+- name: Set download URL for kerbrute_linux_amd64
+  set_fact:
+    download_url: "{{ release_data.json.assets | selectattr('name', 'equalto', 'kerbrute_linux_amd64') | map(attribute='browser_download_url') | first }}"
+
+- name: Ensure the /opt/tools directory exists and set permissions
+  file:
+    path: /opt/tools/kerbrute
+    state: directory
+    mode: '0777'
+    recurse: yes
+
+- name: Download kerbrute_linux_amd64
+  get_url:
+    url: "{{ download_url }}"
+    dest: /opt/tools/kerbrute/kerbrute_linux_amd64
+  when: download_url is defined

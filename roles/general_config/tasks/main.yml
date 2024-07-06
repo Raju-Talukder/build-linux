@@ -49,3 +49,9 @@
   ansible.builtin.command: gunzip -k /usr/share/wordlists/rockyou.txt.gz
   when: not rockyou_file.stat.exists
 
+- name: Creating /opt/tools directory & set permissions
+  file:
+    path: /opt/tools
+    state: directory
+    mode: '0777'
+    recurse: yes
