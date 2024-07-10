@@ -19,8 +19,43 @@
     mode: '0777'
     recurse: yes
 
+- name: Ensure the /opt/tools/peas directory exists and set permissions
+  file:
+    path: /opt/tools/peas
+    state: directory
+    mode: '0777'
+    recurse: yes
+
 - name: Download kerbrute_linux_amd64
   get_url:
     url: "{{ download_url }}"
     dest: /opt/tools/kerbrute/kerbrute_linux_amd64
   when: download_url is defined
+
+- name: Get the latest release data from GitHub
+  uri:
+    url: https://api.github.com/repos/peass-ng/PEASS-ng/releases/latest
+    return_content: yes
+  register: release_data
+
+- name: Set the release tag as a fact
+  set_fact:
+    release_tag: "{{ release_data.json.tag_name }}"
+
+- name: Download winPEASx64.exe
+  get_url:
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/{{ release_tag }}/winPEASx64.exe"
+    dest: /opt/tools/peas/winpeas64.exe
+
+- name: Download linpeas_linux_amd64
+  get_url:
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/{{ release_tag }}/linpeas_linux_amd64"
+    dest: /opt/tools/peas/linpeas
+
+- name: Ensure the downloaded files have execute permissions
+  file:
+    path: "{{ item }}"
+    mode: '0755'
+  loop:
+    - /opt/tools/peas/winpeas64.exe
+    - /opt/tools/peas/linpeas
